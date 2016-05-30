@@ -1,0 +1,393 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>无标题文档</title>
+<style>
+*{
+	margin:0;
+	padding:0;
+	list-style:none;
+	text-decoration: none;
+}
+a{
+	color:#000;
+}
+
+.head{
+	border-top:4px solid #000;
+	position: fixed;
+	left:0;
+	top:0;
+	z-index: 99;
+	width:100%;
+	text-transform: uppercase;
+}
+.head .head-bg{
+	position: absolute;
+	left:0;
+	top:0;
+	height: 100%;
+	width: 100%;
+	background: url(../img/nav.png) no-repeat;
+	opacity: 0;
+}
+
+.head ul li,.head #my-name{
+	position: relative;
+	height:18px;
+	margin:28px;
+}
+.head ul li{
+	float:left;
+	text-align: center;
+}
+.head ul li a,.head #my-name{
+	font-family: "baron-neue-regular","Helvetica","Arial";
+	font-weight:600;
+	font-size:16px;
+	color: #000;
+	word-spacing: 3px;
+	
+}
+.head ul li a.underlined:before{
+	position: absolute;
+    bottom: -2px;
+    left: 0;
+    content: '';
+    height: 3px;
+    width: 0;
+    background: #11cd6e;
+    -webkit-transition: all 0.3s ease-in-out;
+    -moz-transition: all 0.3s ease-in-out;
+    -ms-transition: all 0.3s ease-in-out;
+    -o-transition: all 0.3s ease-in-out;
+    transition: all 0.3s ease-in-out; 
+}
+.head ul li a.underlined:hover:before{
+	width: 100%;
+}
+
+.head #my-name{
+	display: block;
+	float: right;
+}
+#main-img{
+	width: 1366px;
+	height: 417px;
+	background: url(../img/main3.png) no-repeat;
+	position: relative;
+}
+#main-img .intro{
+	width:400px;
+	font-family: "baron-neue-regular","Helvetica","Arial";
+	position: absolute;
+	top:100px;
+	left: 800px;
+
+
+}
+#main-img .intro span{
+	display: block;
+	word-spacing: 3px;
+}
+#main-img .intro .hi{
+	position: absolute;
+	top:0;left:0;
+	font-size:60px;
+	font-weight: 300;
+}
+#main-img .intro .line1{
+	position: absolute;
+	top:20px;left:80px;
+	font-size: 14px;
+	
+}
+#main-img .intro .line2{
+	position: absolute;
+	top:40px;left:80px;
+	font-size: 14px;
+	
+}
+
+
+#main .section_title{
+	text-align: center;
+	font-family: "baron-neue-regular","Helvetica","Arial";
+	padding-top: 50px;
+	
+}
+#main .section_title span{
+	border-bottom: 5px solid #11cd6e;
+	padding-bottom: 3px;
+}
+#can{
+	position: relative;
+	height: 850px;
+}
+#can .content{
+	height:850px
+	width:870px;
+	position: absolute;
+	left:50%;
+	margin-left:-525px;
+	padding:50px 0;
+}
+
+#can .content .outer-wrap{
+	position:relative;
+	float: left;
+	width:250px;
+	height: 150px;
+	
+	margin: 50px;
+	text-align: center;
+	line-height: 150px;
+
+}
+#can .content .outer-wrap h5{
+	font-family: "baron-neue-regular","Helvetica","Arial";
+	font-size: 70px;
+
+}
+#can .content .outer-wrap{
+	position:relative;
+	float: left;
+	width:250px;
+	height: 150px;
+
+	margin: 50px;
+
+}
+#can .content .outer, #can .content .outer:before, #can .content .outer:after {
+    -webkit-transition: opacity 0.8s, transform 0.8s;
+    -moz-transition: opacity 0.8s, transform 0.8s;
+    -ms-transition: opacity 0.8s, transform 0.8s;
+    -o-transition: opacity 0.8s, transform 0.8s;
+    transition: opacity 0.8s, transform 0.8s;
+     }
+#can .content .outer,#can .content .outer:before,#can .content .outer:after{
+	margin:0;
+	position: absolute;
+	top:0;
+	left:0;
+	bottom: 0;
+	right: 0;
+}
+#can .content .outer:before, #can .content .outer:after {
+      content: ''; 
+  }
+#can .content .outer:hover:before{
+	
+       -webkit-transform: scale(0, 1);
+      -moz-transform: scale(0, 1);
+      -ms-transform: scale(0, 1);
+      -o-transform: scale(0, 1);
+      transform: scale(0, 1);
+}
+#can .content .outer:hover:after {
+      -webkit-transform: scale(1, 0);
+      -moz-transform: scale(1, 0);
+      -ms-transform: scale(1, 0);
+      -o-transform: scale(1, 0);
+      transform: scale(1, 0);  
+  }
+#can .content .outer:before{
+	border-bottom: 10px solid #11cd6e;
+      border-top: 10px solid #11cd6e;
+     	opacity: 1;
+      -webkit-transform: scale(1);
+      -moz-transform: scale(1);
+      -ms-transform: scale(1);
+      -o-transform: scale(1);
+      transform: scale(1); 
+} 
+#can .content .outer:after {
+		border-left: 10px solid #11cd6e;
+      border-right: 10px solid #11cd6e;
+     	opacity: 1;
+      -webkit-transform: scale(1);
+      -moz-transform: scale(1);
+      -ms-transform: scale(1);
+      -o-transform: scale(1);
+      transform: scale(1); 
+  }
+
+#contact{
+	height: 330px;
+	margin-top: 100px;
+}
+#contact .icon-wrap{
+	width: 950px;
+	position: absolute;
+	left:50%;
+	margin-left: -465px;
+	padding-top:50px; 
+}
+#contact .icon-outer{
+	float:left;
+	margin: 20px 100px;
+	text-align: center;
+	font-family: "baron-neue-regular","Helvetica","Arial";
+	font-size: 14px;
+	
+}
+
+
+#contact .icon-outer .icon{
+	display: block;
+	width: 100px;
+	height: 100px;
+	border:5px solid #11cd6e;
+	border-radius: 50%;
+}
+
+
+#contact .icon-outer span{
+	display: block;
+	color:#000;
+	margin-top:15px;
+
+}
+
+
+#contact .icon-outer .icon.icon-email{
+	background: url(../img/email.png) no-repeat 18px 18px;
+}
+#contact .icon-outer .icon.icon-wechat{
+	background: url(../img/wechat.png) no-repeat 18px 18px;
+}
+#contact .icon-outer .icon.icon-phone{
+	background: url(../img/phone.png) no-repeat 18px 18px;
+}
+</style>
+<script type="text/javascript" src="move.js"></script>
+<script type="text/javascript">
+window.onload=function(){
+	var oHead=document.getElementById("head");
+	var oHeadBg=document.getElementById("head-bg");
+	var oNavul=oHead.getElementsByTagName("ul")[0];
+	
+	var aNavLink=oNavul.getElementsByTagName("a");
+	var aSpan=oNavul.getElementsByTagName("span");
+
+	var oMainImg=document.getElementById("main-img");
+
+	
+
+	window.onscroll=function(){
+		var scrollTop=document.documentElement.scrollTop||document.body.scrollTop;
+		var scale=scrollTop/oMainImg.offsetHeight;
+		if(scale>=1){
+			scale=1;
+		}
+		oHeadBg.style.opacity=scale;
+		
+	};
+
+	
+			
+		
+		
+
+};
+
+</script>
+
+</head>
+
+<body>
+<div id="head" class="head">
+<div id="head-bg" class="head-bg"></div>
+	<ul>
+        <li>
+        	<a href="javascript:;" class="underlined">ABOUT</a>
+        	
+        </li>
+        <li>
+        	<a href="javascript:;" class="underlined">DEMOS</a>
+        	
+        </li>
+        <li>
+        	<a href="javascript:;" class="underlined">CONTACTS</a>
+        	
+        </li>
+        <li>
+        	<a href="javascript:;" class="underlined">SKILLS</a>
+        	
+        </li>
+    </ul>
+    <a href="javascript:;" id="my-name" class="">Lynn Lee</a>
+
+</div>
+<div id="main">
+	<div id="main-img">
+		<div class="intro">
+			<span class="hi">HI!</span>
+			<span class="line1">My name is Lynn Lee</span>
+			<span class="line2">I make websites,what's your name?</span>
+		</div>
+	</div>
+	<div id="about">
+		<h2 id="about_title" class="section_title">
+			<span>ABOUT</span>
+		</h2>
+	</div>
+	<div id="can">
+		<h2 id="can_title" class="section_title"><span>DEMOS</span></h2>
+		<div class="content">
+			<div class="outer-wrap">
+				<a href="index1.html"><h5>JS</h5></a>
+				<div class="outer">
+				</div>
+			</div>
+			<div class="outer-wrap">
+				<div class="outer"></div>
+			</div>
+			<div class="outer-wrap">
+				<div class="outer"></div>
+			</div>
+			<div class="outer-wrap">
+				<div class="outer"></div>
+			</div>
+			<div class="outer-wrap">
+				<div class="outer"></div>
+			</div>
+			<div class="outer-wrap">
+				<div class="outer"></div>
+			</div>
+			<div class="outer-wrap">
+				<div class="outer"></div>
+			</div>
+			<div class="outer-wrap">
+				<div class="outer"></div>
+			</div>
+			<div class="outer-wrap">
+				<div class="outer"></div>
+			</div>
+		</div>
+	</div>
+	<div id="contact">
+		<h2 id="contact_title" class="section_title"><span>CONTACTS</span></h2>
+		<div class="icon-wrap">
+			<div class="icon-outer">
+				<i class="icon icon-email"></i>
+				<span>email</span>
+			</div>
+			<div class="icon-outer">
+				<i class="icon icon-wechat"></i>
+				<span>wechat</span>
+			</div>
+			<div class="icon-outer">
+				<i class="icon icon-phone"></i>
+				<span>phone</span>
+			</div>
+		</div>
+	</div>
+	<div id="skills"> 
+		<h2 id="skills_title" class="section_title"><span>SKILLS</span></h2>
+	</div>
+	
+</div>
+</body>
+</html>

@@ -1,0 +1,337 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>碰撞照片墙</title>
+<style>
+*{
+	margin:0;
+	padding:0;
+	list-style:none;
+}
+#ul1{ 
+	width:510px;
+	margin:30px auto;
+}
+#ul1 li{
+	float:left;
+	width:150px; 
+	height:150px; 
+	margin:10px;
+	overflow: hidden;
+	position: relative;
+}
+#ul1 li img{
+	position: absolute;
+	top: 0;
+	left:0;
+	width:100%;
+ 	height:100%;
+ }
+ #ul1 li span{ 
+ 	position:absolute;
+ 	left:-150px;
+ 	top:0;
+ 	width:100%; 
+ 	height:100%; 
+ 	text-align: center;
+ 	line-height: 150px;
+ 	font-size: 25px;
+ 	background:pink;
+ 	opacity:.6;
+ 	z-index: 9;
+  }
+.box{
+	border:2px dashed green;
+}
+
+#btn1{
+	position:absolute;
+	left: 50%;
+	bottom:30px;
+	width: 100px;
+	height: 30px;
+	background: green;
+	text-align: center;
+	margin-left: -50px;
+	border:none;
+	color:#fff;
+	font-family: "微软雅黑";
+	font-weight: 400;
+	font-size: 18px;
+	cursor: pointer;
+	outline: none;
+}
+</style>
+<script src="move.js"></script>
+<script>
+window.onload = function(){
+	var oUl = document.getElementById("ul1");
+	var aLi = oUl.children;
+	var len = aLi.length; 
+	var zIndex = 1;
+	
+
+	var oBtn = document.getElementById("btn1");
+
+
+	for(var i = 0; i < aLi.length; i++){
+		lagou(aLi[i]);
+	}
+
+
+
+	oBtn.onclick = function(){
+		
+		aPos.sort(function(){
+			return Math.random() - 0.5;	
+		});
+		
+		for(var i = 0; i < len; i++){
+			aLi[i].index = i;
+			move(aLi[i],aPos[i]);	
+		}
+			
+	};
+	
+	
+	var aPos = [];
+	for(var i = 0; i < len; i++){
+		aPos[i] = {left:aLi[i].offsetLeft,top:aLi[i].offsetTop};
+		aLi[i].style.left = aPos[i].left + "px";
+		aLi[i].style.top  = aPos[i].top + "px";
+	}
+	for(var i = 0; i < len; i++){
+		aLi[i].style.position = "absolute";
+		aLi[i].style.margin  = "0";
+		drag(aLi[i]);
+		aLi[i].index = i;
+	}
+	
+	
+	function drag(obj){
+		obj.onmousedown = function(ev){
+			var oEvent = ev || event;
+			var disX = oEvent.clientX - obj.offsetLeft;
+			var disY = oEvent.clientY - obj.offsetTop;
+			
+			obj.style.zIndex = zIndex++;
+			clearInterval(obj.timer);
+			
+			document.onmousemove = function(ev){
+				var oEvent = ev || event;
+				obj.style.left = oEvent.clientX - disX + "px";
+				obj.style.top  = oEvent.clientY - disY + "px";
+				
+				for(var i = 0; i < len; i++){
+					aLi[i].className = "";
+				}
+				
+				
+				var oNear = findMin(obj);
+
+				if(oNear){
+					oNear.className = "box";
+				}
+			};
+			document.onmouseup = function(){
+				document.onmousemove = null;
+				document.onmouseup = null;
+				obj.releaseCapture && obj.releaseCapture();
+				
+				
+				var oNear = findMin(obj);
+				
+				if(oNear){
+					var tmp = obj.index;
+					obj.index = oNear.index;
+					oNear.index = tmp;
+					
+					
+					move(oNear,aPos[oNear.index]);
+				}
+				move(obj,aPos[obj.index]);
+				
+			};	
+			obj.setCapture && obj.setCapture();
+			return false;
+		};
+	}
+	
+	
+	function getDis(obj1,obj2){
+		var a = obj1.offsetLeft - obj2.offsetLeft;
+		var b = obj1.offsetTop - obj2.offsetTop;
+		
+		return Math.sqrt(a*a + b*b);
+	}
+	
+	
+	
+	function lagou(oDiv){
+	
+		oDiv.onmouseover = function(ev){
+			var oEvent = ev || event;
+			var n = getDir(oEvent,this);
+
+			var oSpan = this.children[0];
+			
+			var oFrom = oEvent.fromElement || oEvent.relatedTarget;
+			if(oDiv.contains(oFrom)){
+				return;
+			}
+			
+			switch(n){
+				case 0://左边
+					oSpan.style.left = "-200px";
+					oSpan.style.top = "0";
+					break;
+				case 1://下边
+					oSpan.style.left = "0";
+					oSpan.style.top = "200px";
+					break;
+				case 2://右边
+					oSpan.style.left = "200px";
+					oSpan.style.top = "0";
+					break;
+				case 3://上边
+					oSpan.style.left = "0";
+					oSpan.style.top = "-200px";
+					break;
+			}
+			move(oSpan,{left:0,top:0});
+		};
+		
+		oDiv.onmouseout = function(ev){
+			var oEvent = ev || event;
+			var n = getDir(oEvent,this);
+			var oSpan = this.children[0];
+			
+			var oTo = oEvent.toElement || oEvent.relatedTarget;
+			if(oDiv.contains(oTo)){
+				return;
+			}
+			
+			switch(n){
+				case 0://左边 
+					move(oSpan,{left:-200,top:0});
+					break;
+				case 1://下边 
+					move(oSpan,{left:0,top:200});
+					break;
+				case 2://右边 
+					move(oSpan,{left:200,top:0});
+					break;
+				case 3://上边 
+					move(oSpan,{left:0,top:-200});
+					break;
+			} 
+		};
+	}
+	
+
+	function getDir(oEvent,obj){
+		var x1 = obj.offsetLeft + obj.offsetWidth/2;
+		var y1 = obj.offsetTop + obj.offsetHeight/2;
+		
+		var x2 = oEvent.clientX;
+		var y2 = oEvent.clientY;
+		
+		var x = x2 - x1;
+		var y = y1 - y2;
+		
+		
+		return Math.round((Math.atan2(y,x)*180/Math.PI+180)/90)%4;			
+	}
+
+
+	function findMin(obj){
+		var iMin = 999999;
+		var iMinIndex = -1;
+		
+		for(var i = 0; i < len; i++){
+			if(obj == aLi[i]) continue;
+			if(collTest(obj,aLi[i])){
+				
+				var dis = getDis(obj,aLi[i]);
+			
+				if(iMin > dis){
+					iMin = dis;
+					iMinIndex = i;
+				}
+				
+			}
+		}
+		
+		if(iMinIndex == -1){
+			return null;
+		}
+		return aLi[iMinIndex];
+	}
+
+	
+	function collTest(obj1,obj2){
+		var l1 = obj1.offsetLeft;
+		var t1 = obj1.offsetTop;
+		var r1 = l1 + obj1.offsetWidth;
+		var b1 = t1 + obj1.offsetHeight;
+		
+		var l2 = obj2.offsetLeft;
+		var t2 = obj2.offsetTop;
+		var r2 = l2 + obj2.offsetWidth;
+		var b2 = t2 + obj2.offsetHeight;
+		
+		if(r1 < l2 || b1 < t2 || l1 > r2 || t1 > b2){
+			return false;
+		} else {
+			return true;
+		}
+	}
+	
+};
+</script>
+</head>
+
+<body>
+
+<input id="btn1" type="button" value="随机交换"/>
+<ul id="ul1">
+	<li>
+		<span>1</span>
+		<img src="img/1.jpg" />
+	</li>
+	<li>
+		<span>2</span>
+		<img src="img/2.jpg" />
+	</li>
+	<li>
+		<span>3</span>
+		<img src="img/3.jpg" />
+	</li>
+	<li>
+		<span>4</span>
+		<img src="img/4.jpg" />
+	</li>
+	<li>
+		<span>5</span>
+		<img src="img/5.jpg" />
+	</li>
+	<li>
+		<span>6</span>
+		<img src="img/6.jpg" />
+	</li>
+	<li>
+		<span>7</span>
+		<img src="img/7.jpg" />
+	</li>
+	<li>
+		<span>8</span>
+		<img src="img/8.jpg" />
+	</li>
+	<li>
+		<span>9</span>
+		<img src="img/9.jpg" />
+	</li>
+</ul>
+</body>
+</html>

@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>散列海报画廊</title>
+	<style type="text/css">
+	*{
+		padding: 0;
+		margin: 0;
+		border:0;
+		list-style: 0;
+	}
+
+	body{
+		background-color:#fff;
+		color:#555;
+		font-family: 'Avenir Next','Lantinghei SC';
+		font-size:14px;
+		-webkit-font-smoothing:antialiased;
+	}
+	.wrap{
+		width:100%;
+		height: 600px;
+		position: absolute;
+		top:50%;
+		margin-top:-300px;
+		background: #333;
+		overflow: hidden;
+		-webkit-perspective:800px;/*safari and chrome*/
+	}
+	.photo{
+		width:260px;
+		height: 300px;
+		position: absolute;	
+		top:50%;
+		left:50%;
+		margin:-150px 0 0 -130px;
+		-webkit-transition:all .6s;
+	}
+	.photo .side{
+		width:100%;
+		height: 100%;
+		background: #eee;
+		position: absolute;
+		top:0;
+		left: 0;
+		padding:20px;
+
+		box-sizing: border-box;
+
+	}
+	
+	.photo .side-front .image{
+		width: 100%;
+		height: 220px;
+		line-height: 220px;
+		overflow: hidden;
+	}
+	.photo .side-front .image img{
+		width:100%;
+
+	}
+	.photo .side-front .caption{
+		text-align: center;
+		font-size:16px;
+		line-height: 60px;
+		
+	}
+	
+	.photo .side-back .desc{
+		color:#666;
+		font-size: 14px;
+		line-height: 1.5em;
+	}
+	.photo-center{
+		width:260px;
+		height: 300px;
+		position: absolute;
+		top:50%;
+		left:50%;
+		margin:-150px 0 0 -130px;
+		z-index: 999;
+	}
+	.photo-wrap{
+		position:absolute;
+		width:100%;
+		height: 100%;
+		-webkit-transform-style:preserve-3d;
+		-webkit-transition:all .6s;
+		-webkit-transform-origin:0% 50%;
+	}
+	.photo-wrap .side-front{
+		-webkit-transform:rotateY(0deg);
+	}
+	.photo-wrap .side-back{
+		-webkit-transform:rotateY(180deg);
+	}
+	.photo-wrap .side{
+		-webkit-backface-visibility:hidden;
+	}
+	.photo-front .photo-wrap{
+		-webkit-transform:translate(0px,0px) rotateY(0deg);
+		
+	}
+	.photo-back .photo-wrap{
+		-webkit-transform:translate(260px,0px) rotateY(180deg);
+	}
+	.wrap ul{
+		position:absolute;
+		width:700px;
+		height: 30px;
+		left: 50%;
+		margin-left:-350px;
+		bottom: 10px;
+		z-index:999;
+
+	}
+	.wrap li{
+		list-style: none;
+		float: left;
+		width: 30px;
+		height: 30px;
+		cursor: pointer;
+		background: #aaa;
+		border-radius: 50%;
+		-webkit-transform:scale(.48);
+		-webkit-transition:all .5s;
+
+	}
+	.wrap .act_front{
+		background: url(img/rotate.png) no-repeat 3px 3px #aaa;
+		-webkit-transform:scale(1);
+		
+	}
+	.wrap .act_back{
+		-webkit-transform:scale(1);
+		-webkit-transform:rotateY(180deg);
+		background: url(img/rotate.png) no-repeat 3px 3px #aaa;
+		
+		
+	}
+	</style>
+	<script type="text/javascript" src="data.js"></script>
+	<script type="text/javascript">
+	window.onload=function(){
+		var aLi=document.getElementsByTagName("li");
+		
+		for (var i = 0; i < data.length; i++) {
+			var oDiv=document.createElement("div");
+			var oUl=getObj("#nav");
+
+			oDiv.className="photo photo-front";
+
+
+			oUl.innerHTML+="<li></li>"
+			
+			oDiv.innerHTML="<div class='photo-wrap'><div class='side side-front'>\
+						<p class='image'>\
+							<img src='img/book"+(i%10+1)+".jpg'>\
+						</p>\
+						<p class='caption'>"+data[i].title+"</p>\
+						</div>\
+						<div class='side side-back'>\
+							<p class='desc'>"+
+							"书名："+data[i].title+"<br/>"+
+							"作者："+data[i].author+"<br/>"+
+							"出版社："+data[i].soruce+"<br/>"+
+							"出版日期："+data[i].time+"<br/>"+
+							"简介："+data[i].desc+
+							"</p>\
+						</div></div>";
+
+
+			getObj("#wrap").appendChild(oDiv);
+		}
+
+
+
+
+		function sidePhoto(n){
+
+			var arrPhoto=[];
+
+			var lMin=0;
+			var lMax=getObj("#wrap").clientWidth/2-getObj(".photo")[0].offsetWidth;
+			var yMin=0;
+			var yMax=getObj("#wrap").clientHeight;
+			var rMin=getObj("#wrap").clientWidth/2+getObj(".photo")[0].offsetWidth;
+			var rMax=getObj("#wrap").clientWidth;
+
+
+			for (var i = 0; i < data.length; i++) {
+				getObj(".photo")[i].className=getObj(".photo")[i].className.replace(/\s*photo-center\s*/," ");
+				getObj(".photo")[i].className=getObj(".photo")[i].className.replace(/\s*photo-front\s*/g," ");
+				getObj(".photo")[i].className=getObj(".photo")[i].className.replace(/\s*photo-back\s*/g," ");
+
+				getObj(".photo")[i].className+=" photo-front"
+				getObj(".photo")[i].style.left="";
+				getObj(".photo")[i].style.top="";
+				getObj(".photo")[i].style["-webkit-transform"]="rotate(0deg) scale(1)";
+			}
+
+
+			getObj(".photo")[n].className+=" photo-center";
+			aLi[n].className="act_front";
+			
+			for (var i = 0; i < data.length; i++) {
+				getObj(".photo")[i].index=i;
+				arrPhoto.push(getObj(".photo")[i]);
+
+
+			}
+
+
+
+			arrPhoto.splice(findCenter(),1);
+
+
+
+
+			var arrLeft=arrPhoto.splice(0,Math.floor((arrPhoto.length)/2));
+			for (var i = 0; i < arrLeft.length; i++) {
+				arrLeft[i].style.left=parseInt(rnd(lMin,lMax))+"px";
+				arrLeft[i].style.top=parseInt(rnd(yMin,yMax))+"px";
+				arrLeft[i].style["-webkit-transform"]="rotate("+parseInt(rnd(-150,150))+"deg) scale(.7)";
+			}
+			for (var i = 0; i < arrPhoto.length; i++) {
+				arrPhoto[i].style.left=parseInt(rnd(rMin,rMax))+"px";
+				arrPhoto[i].style.top=parseInt(rnd(yMin,yMax))+"px";
+				arrPhoto[i].style["-webkit-transform"]="rotate("+parseInt(rnd(-150,150))+"deg) scale(.7)";	
+			}
+		}
+
+
+		
+		sidePhoto(rnd(0,19));
+
+
+
+		
+		for (var i = 0; i < data.length; i++) {
+			aLi[i].index=i;
+			getObj(".photo")[i].onclick=function(){
+				for (var i = 0; i < data.length; i++) {
+					aLi[i].className="";
+				}
+
+				turn(this);
+
+			};
+
+			aLi[i].onclick=function(){
+				for (var i = 0; i < aLi.length; i++) {
+					aLi[i].className="";
+				}
+				turn(getObj(".photo")[this.index]);
+
+			};
+		}
+
+		function findCenter(){
+			for (var i = 0; i < data.length; i++) {
+				var sClass=getObj(".photo")[i].className;
+				if(/photo-center/.test(sClass))return i;
+			}
+		}
+		
+		function rnd(n,m){
+			return parseInt(Math.random()*(m-n)+n);
+		}
+
+		function getObj(str){
+			var char=str.substring(0,1);
+			str=str.substring(1);
+			return char=="#"?document.getElementById(str):document.getElementsByClassName(str);
+		}
+		function turn(obj){
+			var sClass=obj.className;
+			var oLi=aLi[obj.index];
+			if (!/photo-center/.test(sClass)) {
+				return sidePhoto(obj.index);
+			}
+
+				if (/photo-front/.test(sClass)) {
+					obj.className=sClass.replace(/photo-front/,"photo-back");
+					oLi.className="act_back";
+					
+				} else {
+					obj.className=sClass.replace(/photo-back/,"photo-front");
+					oLi.className="act_front";
+				}
+		}
+	};
+		
+
+	</script>
+	
+
+</head>
+<body onselectstart="return false;">
+
+	<div class="wrap" id="wrap">
+
+		<!-- photo 负责平移，旋转 -->
+		<!-- <div id="photo" class="photo photo-center photo-front"> -->
+		<!-- photo-wrap 负责3D翻转 -->
+			<!-- <div class="photo-wrap">
+				<div class="side side-front">
+					<p class="image"><img src="img/book1.jpg"></p>
+					<p class="caption">我用四季来等你</p>
+				</div>
+				<div class="side side-back">
+					<p class="desc">描述信息</p>
+				</div>
+			</div>
+		</div> -->
+		<ul class="nav" id="nav">
+			<!-- <li></li>
+			<li></li>
+			<li></li> -->
+		</ul>
+	</div>
+
+</body>
+</html>

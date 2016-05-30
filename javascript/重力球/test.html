@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<style type="text/css">
+	div {
+		height: 100px;
+		width:100px;
+		border-radius: 50%;
+		position:absolute;
+	}
+	</style>
+	<script>
+		document.onclick=function(ev){
+
+		var oEvent=ev||event;
+		var l=oEvent.clientX;
+		var t=oEvent.clientY;
+		var oDiv = document.createElement("div");
+		// alert(oDiv.offsetWidth);
+		oDiv.style.left=oEvent.clientX-50+"px";
+		oDiv.style.top=oEvent.clientY-50+"px";
+			var r=parseInt(Math.random()*255);
+			var g=parseInt(Math.random()*255);
+			var b=parseInt(Math.random()*255);
+
+			oDiv.style.backgroundColor="rgb("+r+","+g+","+b+")";
+			document.body.appendChild(oDiv);
+		};
+	</script>
+</head>
+<body>
+
+</body>
+</html>
