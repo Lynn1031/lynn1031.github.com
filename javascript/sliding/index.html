@@ -3,89 +3,35 @@
     <head>
 		<meta charset="UTF-8" /> 
         <title>Sliding Image Panels with JS</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+       
         <link rel="stylesheet" type="text/css" href="css/demo.css" />
         <link rel="stylesheet" type="text/css" href="css/style1.css" />
-        <script src="move.js"></script>
-        <script>
-        window.onload = function(){
-			var oDiv = document.getElementById("cr-bgimg");
-			
-			var R = 4;
-			var C = 7;
-			
-			//创建span
-			for(var r = 0; r < R; r++){
-				for(var c = 0; c < C; c++){
-					var oSpan = document.createElement("span");
-					oDiv.appendChild(oSpan);
-					oSpan.style.width = Math.ceil(oDiv.offsetWidth/C) + "px";
-					oSpan.style.height = Math.ceil(oDiv.offsetHeight/R) + "px";
-					
-					oSpan.style.left = oSpan.offsetWidth*c + "px";
-					oSpan.style.top  = oSpan.offsetHeight*r + "px";
-					
-					oSpan.style.backgroundPosition = -oSpan.offsetLeft+"px -" + oSpan.offsetTop + "px";
-					
-				}
-			}
-			
-			
-			/*
-				span 老图
-				div  新图 
-			*/
-			var oBtn = document.getElementById("btn1");
-			var aSpan = oDiv.children;
-			
-			var iNow = 0;
-			var bReady = true;//准备好了
-			oBtn.onclick = function(){
-				this.className="current-pic";
-				if(!bReady) return;
-				bReady = false;
-				
-				//span 老图
-				for(var i = 0; i < aSpan.length; i++){
-					aSpan[i].style.opacity = "1";
-					aSpan[i].style.backgroundImage = "url(images/"+iNow+".jpg)";
-				}
-				
-				iNow++;
-				if(iNow == 4){
-					iNow = 0;
-				}
-				//div  新图 
-				oDiv.style.backgroundImage = "url(images/"+iNow+".jpg)";
-				
-				var i = 0;
-				var timer = setInterval(function(){
-					
-					(function(index){
-						move(aSpan[i],{opacity:0},{
-							complete:function(){
-								if(index == aSpan.length - 1){
-									oBtn.className="";
-									bReady = true;
-								}	
-							}	
-						});	
-					})(i);
-					i++;
-					
-					if(i == aSpan.length){
-						clearInterval(timer);
-					}
-				},100);
-				
-					
-			};
-			
-		 
-		};
-        </script>
+        <style type="text/css">
+		#title{
+			width:100%;
+			height: 30px;
+			background: #000;
+			line-height: 30px;
+		}
+		#title .left{
+			float: left;
+			color:#fff;
+			margin-left: 20px;
+		}
+		#title .right{
+			float: right;
+			color:#fff;
+			margin-right: 20px;
+		}
+        </style>
+        <script src="../../js/move.js"></script>
+        <script src="sliding.js"></script>
     </head>
     <body>
+	    <div id="title">
+			<a href="../3D/index.html" class="left">下一个</a>
+			<a href="../../index.html" class="right">返回主页</a>
+		</div>
         <div class="container">
         	
 			<div>
